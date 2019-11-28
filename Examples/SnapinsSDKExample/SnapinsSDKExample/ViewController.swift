@@ -18,10 +18,8 @@ class ViewController: UIViewController, WKUIDelegate {
   var webView: WKWebView!
     
   override func loadView() {
-      let webConfiguration = WKWebViewConfiguration()
-      webView = WKWebView(frame: .zero, configuration: webConfiguration)
-      webView.uiDelegate = self
-      view = webView
+    super.loadView()
+      
   }
 
   
@@ -45,15 +43,24 @@ class ViewController: UIViewController, WKUIDelegate {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    let myURL = URL(string:"https://www.apple.com")
-    let myRequest = URLRequest(url: myURL!)
-    webView.load(myRequest)
-    
     // Enable the relevant Snap-ins buttons and labels
     knowledgeButton.isHidden = !SnapinsConstants.ENABLE_KNOWLEDGE
     casesButton.isHidden = !SnapinsConstants.ENABLE_CASES
     chatButton.isHidden = !SnapinsConstants.ENABLE_CHAT
     sosButton.isHidden = !SnapinsConstants.ENABLE_SOS
+    
+    //let webConfiguration = WKWebViewConfiguration()
+      //webView = WKWebView(frame: .zero, configuration: webConfiguration)
+      webView = WKWebView()
+      webView.frame  = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+      webView.layer.zPosition = -1
+      webView.uiDelegate = self
+    
+      let myURL = URL(string:"https://www.apple.com")
+      let myRequest = URLRequest(url: myURL!)
+      webView.load(myRequest)
+    
+      self.view.addSubview(webView)
   }
 
   /**
