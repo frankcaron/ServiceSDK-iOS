@@ -4,6 +4,8 @@
 //
 
 import UIKit
+import WebKit
+
 
 import ServiceCore
 import ServiceKnowledge
@@ -11,7 +13,18 @@ import ServiceCases
 import ServiceChat
 import ServiceSOS
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, WKUIDelegate {
+    
+  var webView: WKWebView!
+    
+  override func loadView() {
+      let webConfiguration = WKWebViewConfiguration()
+      webView = WKWebView(frame: .zero, configuration: webConfiguration)
+      webView.uiDelegate = self
+      view = webView
+  }
+
+  
 
   @IBOutlet weak var knowledgeButton: UIButton!
   @IBOutlet weak var casesButton: UIButton!
@@ -31,9 +44,12 @@ class ViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-
+    
+    let myURL = URL(string:"https://www.apple.com")
+    let myRequest = URLRequest(url: myURL!)
+    webView.load(myRequest)
+    
     // Enable the relevant Snap-ins buttons and labels
-    nothingEnabledLabel.isHidden = somethingIsEnabled
     knowledgeButton.isHidden = !SnapinsConstants.ENABLE_KNOWLEDGE
     casesButton.isHidden = !SnapinsConstants.ENABLE_CASES
     chatButton.isHidden = !SnapinsConstants.ENABLE_CHAT
