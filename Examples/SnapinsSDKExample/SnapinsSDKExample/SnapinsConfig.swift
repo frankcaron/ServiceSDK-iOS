@@ -31,6 +31,8 @@ class SnapinsConfig : NSObject {
         return config!
     }
     
+    
+    
     /**
      One time setup for the Snapins configuration.
      This is called from the AppDelegate.
@@ -46,6 +48,26 @@ class SnapinsConfig : NSObject {
             // Add self as an action button delegate
             serviceCloud.actions.delegate = self
         }
+        
+        // Create appearance configuration instance
+        let appearance = SCAppearanceConfiguration()
+           
+        // Customize color tokens
+        appearance.setColor(
+               UIColor(red: 205/255, green: 47/255, blue: 47/255, alpha: 1.0),
+               forName: .brandPrimary)
+        appearance.setColor(
+               UIColor(red: 205/255, green: 47/255, blue: 47/255, alpha: 1.0),
+               forName: .brandSecondary)
+        appearance.setColor(
+               UIColor(red: 252/255, green: 252/255, blue: 252/255, alpha: 1.0),
+               forName: .brandSecondaryInverted)
+        //appearance.setColor(
+        //    UIColor(red: 252/255, green: 252/255, blue: 252/255, alpha: 1.0),
+        //    forName: .contrastInverted)
+           
+        // Save configuration instance
+        ServiceCloud.shared().appearanceConfiguration = appearance
     }
     
     /**

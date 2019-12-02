@@ -7,6 +7,7 @@ import UIKit
 import WebKit
 
 
+
 import ServiceCore
 import ServiceKnowledge
 import ServiceCases
@@ -22,13 +23,9 @@ class ViewController: UIViewController, WKUIDelegate {
       
   }
 
-  
-
   @IBOutlet weak var knowledgeButton: UIButton!
   @IBOutlet weak var casesButton: UIButton!
   @IBOutlet weak var chatButton: UIButton!
-  @IBOutlet weak var sosButton: UIButton!
-  @IBOutlet weak var nothingEnabledLabel: UILabel!
 
   var customActionButton: SCSActionButton?
 
@@ -37,8 +34,7 @@ class ViewController: UIViewController, WKUIDelegate {
    */
   let somethingIsEnabled = SnapinsConstants.ENABLE_KNOWLEDGE ||
     SnapinsConstants.ENABLE_CASES ||
-    SnapinsConstants.ENABLE_CHAT ||
-    SnapinsConstants.ENABLE_SOS
+    SnapinsConstants.ENABLE_CHAT
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -47,16 +43,16 @@ class ViewController: UIViewController, WKUIDelegate {
     knowledgeButton.isHidden = !SnapinsConstants.ENABLE_KNOWLEDGE
     casesButton.isHidden = !SnapinsConstants.ENABLE_CASES
     chatButton.isHidden = !SnapinsConstants.ENABLE_CHAT
-    sosButton.isHidden = !SnapinsConstants.ENABLE_SOS
     
-    //let webConfiguration = WKWebViewConfiguration()
+      let webConfiguration = WKWebViewConfiguration()
       //webView = WKWebView(frame: .zero, configuration: webConfiguration)
-      webView = WKWebView()
-      webView.frame  = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+      webView = WKWebView(frame: .zero, configuration: webConfiguration)
+      //  webView = WKWebView()
+      webView.frame  = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height-50)
       webView.layer.zPosition = -1
       webView.uiDelegate = self
     
-      let myURL = URL(string:"https://www.apple.com")
+      let myURL = URL(string:"https://shop.lululemon.com")
       let myRequest = URLRequest(url: myURL!)
       webView.load(myRequest)
     
@@ -66,7 +62,7 @@ class ViewController: UIViewController, WKUIDelegate {
   /**
    Starts Knowledge.
    */
-  @IBAction func startKnowledge(_ sender: AnyObject) {
+    @IBAction func startKnowledge(_ sender: AnyObject) {
     ServiceCloud.shared().knowledge.setInterfaceVisible(true,
       animated: true, completion: nil)
   }
@@ -82,7 +78,8 @@ class ViewController: UIViewController, WKUIDelegate {
   /**
    Starts Live Agent Chat.
    */
-  @IBAction func startChat(_ sender: Any) {
+    
+    @IBAction func startChat(_ sender: Any) {
     
     ServiceCloud.shared().chatUI.showChat(with: SnapinsConfig.instance.chatConfig!,
                                           showPrechat: SnapinsConstants.ENABLE_PRECHAT_FIELDS)
@@ -91,11 +88,5 @@ class ViewController: UIViewController, WKUIDelegate {
     // ServiceCloud.shared().chatUI.showChat(with: SnapinsConfig.instance.chatConfig!)
   }
 
-  /**
-   Starts SOS.
-   */
-  @IBAction func startSOS(_ sender: Any) {
-    ServiceCloud.shared().sos.startSession(with: SnapinsConfig.instance.sosConfig)
-  }
 }
 
